@@ -1,6 +1,6 @@
 import cherrypy
 cherrypy.config.update({'server.socket_port': 9999})
-cherrypy.server.socket_host = '66.116.97.86'
+cherrypy.server.socket_host = 'your_ip'
 #cherrypy.engine.restart()
 from os import path
 import os
