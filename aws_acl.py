@@ -1,6 +1,6 @@
 import cherrypy
 cherrypy.config.update({'server.socket_port': 9999})
-cherrypy.server.socket_host = 'yourip'
+cherrypy.server.socket_host = '66.116.97.86'
 #cherrypy.engine.restart()
 from os import path
 import os
@@ -14,7 +14,6 @@ config = {
 
 
 class Root(object):
-    #subpage = Subpage()
  
     @cherrypy.expose
     def index(self):
@@ -23,10 +22,9 @@ class Root(object):
  
     @cherrypy.expose
     def deleteIP(self):
-        tmpl = env.get_template("deleteIP.html")
         cmd = "/home/ansible/www/del_ipadd_ec2_sg.py"
         os.system(cmd)
-        return tmpl.render()
+        return self.refresh()
 
     @cherrypy.expose
     def form(self):
@@ -37,8 +35,11 @@ class Root(object):
     def addIP(self, ipaddress=None):
         cmd = "/home/ansible/www/add_ipadd_ec2_sg.py --ip %s" %ipaddress
         os.system(cmd)
-        return tmpl.render()
+        return self.refresh()
 
+    @cherrypy.expose
+    def refresh(self):
+        return self.index()
  
 app = cherrypy.tree.mount(Root(), "/", config)
 cherrypy.engine.start()
